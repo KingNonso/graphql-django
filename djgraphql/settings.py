@@ -35,8 +35,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     "django.contrib.staticfiles",  # Required for GraphiQL
-    "graphene_django",
+    'graphene_django',
+    'graphql_jwt.refresh_token.apps.RefreshTokenConfig',
+    'graphql_auth',
+    'django_filters',
     'book',
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -120,6 +124,47 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+
+AUTH_USER_MODEL = 'accounts.User'
+
 GRAPHENE = {
-    'SCHEMA': 'djgraphql.schema.schema'
+    'SCHEMA': 'djgraphql.schema.schema',
+    'MIDDLEWARE': [
+        'graphql_jwt.middleware.JSONWebTokenMiddleware',
+    ],
+}
+
+AUTHENTICATION_BACKENDS = [
+    'graphql_auth.backends.GraphQLAuthBackend',
+    'django.contrib.auth.backends.ModelBackend',
+    'accounts.authentication.EmailAuthBackend',
+    'accounts.authentication.PhoneAuthBackend',
+
+]
+
+GRAPHQL_JWT = {
+    "JWT_VERIFY_EXPIRATION": True,
+    "JWT_LONG_RUNNING_REFRESH_TOKEN": True,
+    "JWT_ALLOW_ANY_CLASSES": [
+        "graphql_auth.mutations.Register",
+        "graphql_auth.mutations.VerifyAccount",
+        "graphql_auth.mutations.ResendActivationEmail",
+        "graphql_auth.mutations.SendPasswordResetEmail",
+        "graphql_auth.mutations.PasswordReset",
+        "graphql_auth.mutations.ObtainJSONWebToken",
+        "graphql_auth.mutations.VerifyToken",
+        "graphql_auth.mutations.RefreshToken",
+        "graphql_auth.mutations.RevokeToken",
+        # "graphql_auth.mutations.VerifySecondaryEmail",
+    ],
+}
+
+GRAPHQL_AUTH = {
+    'LOGIN_ALLOWED_FIELDS': ['email', 'username', 'phone'],
+    'REGISTER_MUTATION_FIELDS': ['email', 'username', 'first_name', 'last_name'],
+    'REGISTER_MUTATION_FIELDS_OPTIONAL': ['phone', 'dob'],
+    'ALLOW_LOGIN_NOT_VERIFIED': True,
+    'ALLOW_DELETE_ACCOUNT': False,
+    'SEND_ACTIVATION_EMAIL': True,
+    'SEND_PASSWORD_SET_EMAIL': True,
 }
