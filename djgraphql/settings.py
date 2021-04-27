@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+from decouple import config
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
@@ -168,3 +170,10 @@ GRAPHQL_AUTH = {
     'SEND_ACTIVATION_EMAIL': True,
     'SEND_PASSWORD_SET_EMAIL': True,
 }
+
+EMAIL_HOST = config('EMAIL_HOST')
+EMAIL_PORT = 1025
+DEFAULT_FROM_EMAIL = 'GraphQL Test Server <info@kingnonso.com>'
+EMAIL_USE_TLS = False
+
+
