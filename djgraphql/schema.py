@@ -5,6 +5,8 @@ from graphql_auth.schema import UserQuery, MeQuery
 from accounts.graphql.schema import AccountsMutation
 from book.models import Category, Ingredient
 from links import schema as links
+from links import schema_relay as links_relay
+from links.schema_relay import RelayMutation
 
 
 class CategoryType(DjangoObjectType):
@@ -40,7 +42,7 @@ class BookQuery(graphene.ObjectType):
             return None
 
 
-class Query(links.Query, BookQuery, UserQuery, MeQuery, graphene.ObjectType):
+class Query(links.Query, links_relay.RelayQuery, BookQuery, UserQuery, MeQuery, graphene.ObjectType):
     pass
 
 
@@ -67,7 +69,11 @@ class CategoryMutation(graphene.Mutation):
 #         notes = graphene.String()
 
 
-class Mutation(AccountsMutation, links.Mutation, graphene.ObjectType):
+class Mutation(
+    RelayMutation,
+    AccountsMutation,
+    links.Mutation,
+    graphene.ObjectType):
     new_category = CategoryMutation.Field()
 
 

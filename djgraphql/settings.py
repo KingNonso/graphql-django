@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-
+from datetime import timedelta
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -147,6 +147,8 @@ AUTHENTICATION_BACKENDS = [
 GRAPHQL_JWT = {
     "JWT_VERIFY_EXPIRATION": True,
     "JWT_LONG_RUNNING_REFRESH_TOKEN": True,
+    'JWT_EXPIRATION_DELTA': timedelta(days=90),
+    'JWT_REFRESH_EXPIRATION_DELTA': timedelta(days=180),
     'JWT_REFRESH_EXPIRED_HANDLER': lambda orig_iat, context: False,
     "JWT_ALLOW_ANY_CLASSES": [
         "graphql_auth.mutations.Register",

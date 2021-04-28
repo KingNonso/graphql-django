@@ -31,8 +31,7 @@ class PhoneAuthBackend(object):
     def authenticate(self, request, username=None, password=None):
         try:
             users = User.objects.filter(phone=username)
-            print(users.count())
-            if users.count() == 1 and users[0].phone is not None and users[0].check_password(password):
+            if users.count() == 1 and users[0].phone and users[0].check_password(password):
                 return users[0]
             return None
         except User.DoesNotExist:
