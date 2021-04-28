@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django_filters',
     'book',
     'accounts',
+    'links',
 ]
 
 MIDDLEWARE = [
@@ -126,7 +127,6 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
 AUTH_USER_MODEL = 'accounts.User'
 
 GRAPHENE = {
@@ -147,6 +147,7 @@ AUTHENTICATION_BACKENDS = [
 GRAPHQL_JWT = {
     "JWT_VERIFY_EXPIRATION": True,
     "JWT_LONG_RUNNING_REFRESH_TOKEN": True,
+    'JWT_REFRESH_EXPIRED_HANDLER': lambda orig_iat, context: False,
     "JWT_ALLOW_ANY_CLASSES": [
         "graphql_auth.mutations.Register",
         "graphql_auth.mutations.VerifyAccount",
@@ -175,5 +176,3 @@ EMAIL_HOST = config('EMAIL_HOST')
 EMAIL_PORT = 1025
 DEFAULT_FROM_EMAIL = 'GraphQL Test Server <info@kingnonso.com>'
 EMAIL_USE_TLS = False
-
-

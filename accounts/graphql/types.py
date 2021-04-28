@@ -1,16 +1,8 @@
-import graphene
+from django.contrib.auth import get_user_model
 from graphene_django import DjangoObjectType
-from graphql_auth.decorators import verification_required
-
 
 
 class UserType(DjangoObjectType):
     class Meta:
-        model = User
-        fields = ('username', 'first_name', 'last_name', 'phone', 'dob', 'is_active')
-
-
-
-
-
-
+        model = get_user_model()
+        fields = ('id', 'username', 'first_name', 'last_name', 'phone', 'dob', 'is_active')
