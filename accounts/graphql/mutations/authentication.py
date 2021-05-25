@@ -18,7 +18,7 @@ class AuthMutation(graphene.ObjectType):
     # swap_emails = mutations.SwapEmails.Field()
 
     # django-graphql-jwt inheritances
-    login_user = mutations.ObtainJSONWebToken.Field()
+    login = mutations.ObtainJSONWebToken.Field()
     verify_token = mutations.VerifyToken.Field()
     refresh_token = mutations.RefreshToken.Field()
     revoke_token = mutations.RevokeToken.Field()

@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure--%+$8m)fsj$mqqyo7%(bwl++35c6uku+%qejr%gd$)t9ji*ag1
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['.kingnonso.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -42,14 +42,18 @@ INSTALLED_APPS = [
     'graphql_jwt.refresh_token.apps.RefreshTokenConfig',
     'graphql_auth',
     'django_filters',
+    'corsheaders',
+
     'book',
     'accounts',
     'links',
+    'movies',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -173,9 +177,9 @@ GRAPHQL_JWT = {
 }
 
 GRAPHQL_AUTH = {
-    'LOGIN_ALLOWED_FIELDS': ['email', 'username', 'phone'],
-    'REGISTER_MUTATION_FIELDS': ['email', 'username', 'first_name', 'last_name'],
-    'REGISTER_MUTATION_FIELDS_OPTIONAL': ['phone', 'dob'],
+    'LOGIN_ALLOWED_FIELDS': ['email', 'username'],
+    'REGISTER_MUTATION_FIELDS': ['username'],
+    'REGISTER_MUTATION_FIELDS_OPTIONAL': ['phone', 'dob', 'email', 'first_name', 'last_name'],
     'ALLOW_LOGIN_NOT_VERIFIED': True,
     'ALLOW_DELETE_ACCOUNT': False,
     'SEND_ACTIVATION_EMAIL': True,
@@ -186,3 +190,5 @@ EMAIL_HOST = config('EMAIL_HOST')
 EMAIL_PORT = 1025
 DEFAULT_FROM_EMAIL = 'GraphQL Test Server <info@kingnonso.com>'
 EMAIL_USE_TLS = False
+
+CORS_ALLOW_ALL_ORIGINS = True

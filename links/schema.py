@@ -56,8 +56,9 @@ class CreateLink(graphene.Mutation):
         description = graphene.String()
 
     def mutate(self, info, url, description):
-        user = info.context.user or None
-        print('user', user)
+        user = None if info.context.user.is_anonymous else info.context.user
+        auth_header = info.context.META.get('HTTP_AUTHORIZATION')
+        print('user', user, auth_header)
 
         link = Link(
             url=url,

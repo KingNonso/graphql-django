@@ -7,6 +7,7 @@ from book.models import Category, Ingredient
 from links import schema as links
 from links import schema_relay as links_relay
 from links.schema_relay import RelayMutation
+from movies.schema import MoviesMutation, MoviesQuery
 
 
 class CategoryType(DjangoObjectType):
@@ -42,7 +43,15 @@ class BookQuery(graphene.ObjectType):
             return None
 
 
-class Query(links.Query, links_relay.RelayQuery, BookQuery, UserQuery, MeQuery, graphene.ObjectType):
+class Query(
+    MoviesQuery,
+    links.Query,
+    links_relay.RelayQuery,
+    BookQuery,
+    UserQuery,
+    MeQuery,
+    graphene.ObjectType
+):
     pass
 
 
@@ -70,6 +79,7 @@ class CategoryMutation(graphene.Mutation):
 
 
 class Mutation(
+    MoviesMutation,
     RelayMutation,
     AccountsMutation,
     links.Mutation,
